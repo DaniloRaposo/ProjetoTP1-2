@@ -5,7 +5,67 @@
 
 #include "controladoras.h"
 
-void CntrAAutenticacao::executar(){
+void ControladoraSistema::executar(){
+
+  char resposta[2];
+  int linha, coluna, opcao;
+  bool retorno = false;
+
+  while(true){
+    initscr();
+    getmaxyx(stdscr, linha, coluna);
+    mvprintw(0,0,"%s","Início\n");
+    mvprintw(linha/4,(coluna - 25)/2,"%s","Escolha uma das opções\n");
+    mvprintw(linha/4 + 2,(coluna - 25)/2,"%s","Cadastrar Usuário - 1\n");
+    mvprintw(linha/4 + 3,(coluna - 25)/2,"%s","Autenticar Usuário - 2\n");
+    mvprintw(linha/4 + 4,(coluna - 25)/2,"%s","Obter Dados dos Eventos - 3\n");
+    mvprintw(linha/4 + 5,(coluna - 25)/2,"%s","Retornar - 4\n");
+    mvprintw(linha/4 + 7,(coluna - 25)/2,"%s","Escolha um dos números : ");
+    getstr(resposta);
+    opcao = atoi(resposta);
+    clear();
+    endwin();
+
+    switch(opcao){
+      case(CADASTRAR_USUARIO):
+      //controladora_usuario->cadastrar_usuario();
+      break;
+
+      case(AUTENTICAR_USUARIO):
+      controladora_autenticacao->autenticar_usuario();
+      break;
+
+      case(OBTER_DADOS_EVENTOS):
+      //controladora_eventos->obter_dados_eventos();
+      break;
+
+      case(RETORNAR):
+      retorno = true;
+      break;
+
+      default:
+      initscr();
+      getmaxyx(stdscr,linha,coluna);
+      mvprintw(0,0,"%s","Início\n");
+      mvprintw(linha/2,(coluna - 15)/2,"%s","Opção não válida\n");
+      mvprintw(linha/2 + 2,(coluna - 35)/2,"%s","Deseja retornar? (Se sim digite 'S') : ");
+      getstr(resposta);
+      clear();
+      endwin();
+
+      if(!strcmp(resposta, "S") || !strcmp(resposta, "s"))
+        retorno = true;
+
+      break;
+
+    }
+
+    if(retorno == true)
+      break;
+  }
+}
+
+void CntrAAutenticacao::autenticar_usuario(){
 
     char cpf[15];
     char senha[7];

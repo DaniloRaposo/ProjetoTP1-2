@@ -50,7 +50,7 @@ class ISAutenticacao{ // interface que permite a comunicação com o módulo de 
 class IAAuteuticacao { // interface que permite a comunicação com o módulo de autenticação da camada de apresentação
 
     public:
-        virtual void executar() = 0; // método que executa o módulo que herda dessa interface
+        virtual void autenticar_usuario() = 0; // método que executa o módulo que herda dessa interface
 
         virtual void setCSAutenticacao(ISAutenticacao *) = 0; // método que liga o módulo de apresentação com um módulo de serviço
 

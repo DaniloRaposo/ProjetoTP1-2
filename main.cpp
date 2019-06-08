@@ -11,6 +11,7 @@
 
 int main(){
 
+  ControladoraSistema cntr;
   CntrAAutenticacao cntra;
   CntrAUsuario cntru;
   CntrAEventos cntre;
@@ -18,12 +19,15 @@ int main(){
   StubSUsuario stubu;
   StubSEventos stube;
 
+  cntr.setCAAutenticacao(&cntra);
+  cntr.setCAUsuario(&cntru);
+  cntr.setCAEventos(&cntre);
   cntra.setCSAutenticacao(&stuba);
   cntra.setCAUsuario(&cntru);
   cntru.setCSUsuario(&stubu);
   cntru.setCAEventos(&cntre);
   cntre.setCSEventos(&stube);
-  cntra.executar();
+  cntr.executar();
 
   return 0;
 }
