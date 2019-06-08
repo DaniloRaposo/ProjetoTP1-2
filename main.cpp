@@ -3,6 +3,7 @@
 #include <ncurses.h>
 #include <cstdlib>
 #include <stdexcept>
+#include <vector>
 
 #include "interfaces.h"
 #include "controladoras.h"
@@ -10,21 +11,19 @@
 
 int main(){
 
-  CntrAAutenticacao *cntra;
-  CntrAUsuario *cntru;
-  StubSAutenticacao *stub;
+  CntrAAutenticacao cntra;
+  CntrAUsuario cntru;
+  CntrAEventos cntre;
+  StubSAutenticacao stuba;
+  StubSUsuario stubu;
+  StubSEventos stube;
 
-  cntru = new CntrAUsuario();
-  cntra = new CntrAAutenticacao();
-  stub = new StubSAutenticacao();
-
-  cntra->setCSAutenticacao(stub);
-  cntra->setCAUsuario(cntru);
-  cntra->executar();
-
-  delete cntra;
-  delete cntru;
-  delete stub;
+  cntra.setCSAutenticacao(&stuba);
+  cntra.setCAUsuario(&cntru);
+  cntru.setCSUsuario(&stubu);
+  cntru.setCAEventos(&cntre);
+  cntre.setCSEventos(&stube);
+  cntra.executar();
 
   return 0;
 }

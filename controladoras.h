@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <cstdlib>
+#include <vector>
 #include <stdexcept>
 
 #include "dominios.h"
@@ -38,6 +39,7 @@ class CntrAUsuario:public IAUsuario{
         const static int RETORNAR = 6;
 
         ISUsuario *controladora_servico;
+        IAEventos *controladora_eventos;
 
     public:
         void executar(std::string cpf, std::string senha);
@@ -45,6 +47,25 @@ class CntrAUsuario:public IAUsuario{
         void setCSUsuario(ISUsuario *controladora_servico){
             this->controladora_servico = controladora_servico;
         }
+
+        void setCAEventos(IAEventos *controladora_eventos){
+            this->controladora_eventos = controladora_eventos;
+        }
+};
+
+class CntrAEventos:public IAEventos{
+
+    private:
+      ISEventos *controladora_servico;
+
+    public:
+      //void executar();
+
+      void cadastrar_evento(std::string cpf, std::string);
+
+      void setCSEventos(ISEventos * controladora_servico){
+          this->controladora_servico = controladora_servico;
+      }
 };
 
 #endif
