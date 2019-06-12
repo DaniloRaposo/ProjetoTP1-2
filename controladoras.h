@@ -69,6 +69,8 @@ class CntrAUsuario:public IAUsuario{
         IAEventos *controladora_eventos;
 
     public:
+        void cadastrar_usuario();
+
         void executar(std::string cpf, std::string senha);
 
         void setCSUsuario(ISUsuario *controladora_servico){

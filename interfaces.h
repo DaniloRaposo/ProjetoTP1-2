@@ -27,14 +27,14 @@ class ISUsuario{ // interface que permite a comunicação com o módulo de usuá
 
   public: // Tarefas feitas pelo módulo de usuário da camada de serviço:
     virtual bool descadastrar_usuario(std::string cpf, std::string senha) throw(runtime_error) = 0;
-    virtual bool comprar_ingresso() throw(runtime_error) = 0;
-    virtual bool descadastrar_evento() throw(runtime_error) = 0;
-    virtual bool alterar_evento() throw(runtime_error) = 0;
+    virtual bool cadastrar_usuario(std::string cpf, std::string senha, std::string numero_cartao, std::string codigo_seguranca, std::string data_validade) throw(runtime_error) = 0;
 };
 
 class IAUsuario{ // interface que permite a comunicação com o módulo de usuário da camada de apresentação
 
   public:
+    virtual void cadastrar_usuario() = 0; // método que cadastra o usuário
+
     virtual void executar(std::string cpf, std::string senha) = 0; // método que executa o módulo que herda dessa interface
 
     virtual void setCSUsuario(ISUsuario *) = 0; // método que liga o módulo de apresentação com um módulo de serviço

@@ -16,21 +16,34 @@ bool StubSAutenticacao::autenticar(std::string cpf, std::string senha) throw(run
     return true;
 }
 
-const std::string StubSUsuario::TRIGGER_ERRO_CPF = "000.000.000-00";
-const std::string StubSUsuario::TRIGGER_ERRO_SENHA = "123456";
+const std::string StubSUsuario::TRIGGER_FALHA_CPF = "123.123.123.44";
+const std::string StubSUsuario::TRIGGER_ERRO_CPF_DESCADASTRAR = "000.000.000-00";
+const std::string StubSUsuario::TRIGGER_ERRO_CPF_CADASTRAR = "123.456.789-00";
+const std::string StubSUsuario::TRIGGER_FALHA_SENHA = "AAAAAA";
+const std::string StubSUsuario::TRIGGER_ERRO_SENHA_DESCADASTRAR = "123456";
+const std::string StubSUsuario::TRIGGER_ERRO_SENHA_CADASTRAR = "121212";
+const std::string StubSUsuario::TRIGGER_FALHA_NUMERO_CARTAO = "123123123123123A";
+const std::string StubSUsuario::TRIGGER_ERRO_NUMERO_CARTAO = "0000000000000000";
+const std::string StubSUsuario::TRIGGER_FALHA_CODIGO_SEGURANCA = "ABC";
+const std::string StubSUsuario::TRIGGER_ERRO_CODIGO_SEGURANCA = "123";
+const std::string StubSUsuario::TRIGGER_FALHA_DATA = "13/22";
+const std::string StubSUsuario::TRIGGER_ERRO_DATA = "12/12";
 
 bool StubSUsuario::descadastrar_usuario(std::string cpf, std::string senha) throw(runtime_error){
-  if(cpf == TRIGGER_ERRO_CPF || senha == TRIGGER_ERRO_SENHA)
+  if(cpf == TRIGGER_ERRO_CPF_DESCADASTRAR || senha == TRIGGER_ERRO_SENHA_DESCADASTRAR)
     throw runtime_error("Erro de sistema");
   else
     return true;
 }
 
-bool StubSUsuario::comprar_ingresso() throw(runtime_error){}
-
-bool StubSUsuario::descadastrar_evento() throw(runtime_error){}
-
-bool StubSUsuario::alterar_evento() throw(runtime_error){}
+bool StubSUsuario::cadastrar_usuario(std::string cpf, std::string senha, std::string numero_cartao, std::string codigo_seguranca, std::string data_validade) throw(runtime_error){
+  if(cpf == TRIGGER_FALHA_CPF || senha == TRIGGER_FALHA_SENHA || numero_cartao == TRIGGER_FALHA_NUMERO_CARTAO || codigo_seguranca == TRIGGER_FALHA_CODIGO_SEGURANCA || data_validade == TRIGGER_FALHA_DATA)
+    return false;
+  else if(cpf == TRIGGER_ERRO_CPF_CADASTRAR || senha == TRIGGER_ERRO_SENHA_CADASTRAR || numero_cartao == TRIGGER_ERRO_NUMERO_CARTAO || codigo_seguranca == TRIGGER_ERRO_CODIGO_SEGURANCA || data_validade == TRIGGER_ERRO_DATA)
+    throw runtime_error("Erro de sistema");
+  else
+    return true;
+}
 
 const std::string StubSEventos::TRIGGER_FALHA_CODIGO_EVENTO = "111";
 const std::string StubSEventos::TRIGGER_ERRO_CODIGO_EVENTO = "222";

@@ -28,7 +28,7 @@ void ControladoraSistema::executar(){
 
     switch(opcao){
       case(CADASTRAR_USUARIO):
-      //controladora_usuario->cadastrar_usuario();
+      controladora_usuario->cadastrar_usuario();
       break;
 
       case(AUTENTICAR_USUARIO):
@@ -104,6 +104,57 @@ void CntrAAutenticacao::autenticar_usuario(){
 
         if(!strcmp(resposta, "S") || !strcmp(resposta, "s"))
           retorno = true;
+      }
+
+      if(retorno)
+        break;
+    }
+}
+
+void CntrAUsuario::cadastrar_usuario(){
+    int linha, coluna;
+    char resposta[2];
+    char cpf[15], senha[7], numero[17], codigo[4], data[6];
+    bool retorno  = false;
+    bool cadastrou;
+    std::string cpfstr, senhastr, numerostr, codigostr, datastr;
+
+    while(true){
+      initscr();
+      getmaxyx(stdscr,linha,coluna);
+      mvprintw(0,0,"%s","Usuário\n");
+      mvprintw(linha/4,(coluna - 15)/3,"%s","Digite Cpf do Usuário: ");
+      getstr(cpf);
+      cpfstr = cpf;
+      mvprintw(linha/4 + 2,(coluna - 15)/3,"%s","Digite a Senha do Usuário: ");
+      getstr(senha);
+      senhastr = senha;
+      mvprintw(linha/4 + 4,(coluna - 15)/3,"%s","Digite a Número do Cartão de Crédito: ");
+      getstr(numero);
+      numerostr = numero;
+      mvprintw(linha/4 + 6,(coluna - 15)/3,"%s","Digite o Código de Segurança do Cartão de Crédito: ");
+      getstr(codigo);
+      codigostr = codigo;
+      mvprintw(linha/4 + 8,(coluna - 15)/3,"%s","Digite a Data de Validade do Cartão de Crédito: ");
+      getstr(data);
+      datastr = data;
+      clear();
+      endwin();
+
+      cadastrou = controladora_servico->cadastrar_usuario(cpfstr, senhastr, numerostr, codigostr, datastr);
+
+      if(cadastrou == true)
+        retorno = true;
+      else{
+        initscr();
+        mvprintw(0,0,"%s","Usuário\n");
+        mvprintw(linha/2,(coluna - 35)/2,"%s","Erro nos dados Informados\n");
+        mvprintw(linha/2 + 2,(coluna - 35)/2,"%s","Deseja retornar? (Se sim digite 'S') : ");
+        getstr(resposta);
+        if(!strcmp(resposta, "s") || !strcmp(resposta, "S"))
+          retorno = true;
+        clear();
+        endwin();
       }
 
       if(retorno)
