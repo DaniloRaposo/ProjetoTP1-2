@@ -28,6 +28,13 @@ class Usuario{
         inline Senha GetSenha(){
             return senha;
         }
+        bool isEqualTo(Usuario input){
+            if (input.GetCpf().Get() == this->cpf.Get())
+                if(input.GetSenha().Get() == this->senha.Get())
+                    return 1;
+            else
+                return 0;
+        };
 };
 
 class Evento{
@@ -41,7 +48,7 @@ class Evento{
         Faixa_etaria faixa;
 
     public:
-  
+
         void Set(const Codigo_de_evento &input) throw (invalid_argument){ // seta o valor do código de evento, o input é o código a ser setado
             this->codigo= input;
         }
@@ -89,6 +96,18 @@ class Evento{
         inline Faixa_etaria GetFaixa(){
             return faixa;
         }
+
+        bool isEqualTo(Evento input){
+            if (input.GetCidade().Get() == this->cidade.Get()
+                && input.GetClasse().Get() == this->classe.Get()
+                && input.GetCodigo().Get() == this->codigo.Get()
+                && input.GetEstado().Get() == this->estado.Get()
+                && input.GetFaixa().Get() == this->faixa.Get()
+                && input.GetNome().Get() == this->nome.Get())
+                    return 1;
+            else
+                return 0;
+        };
 };
 
 class Apresentacao{
@@ -102,7 +121,7 @@ class Apresentacao{
         Disponibilidade disponibilidade;
 
     public:
-  
+
         void Set(const Codigo_de_apresentacao &input) throw (invalid_argument){ // seta o codigo de apresentação da apresentação, o input é o código a ser setado
             this->codigo = input;
         }
@@ -111,7 +130,7 @@ class Apresentacao{
             return codigo;
         }
 
-  
+
         void Set(const Data &input) throw (invalid_argument){ // seta a data da apresentação, o input é a data a ser setada
             this->data = input;
         }
@@ -151,6 +170,19 @@ class Apresentacao{
         inline Disponibilidade GetDisponibilidade(){
             return disponibilidade;
         }
+
+        bool isEqualTo(Apresentacao input){
+            if (input.GetCodigo().Get() == this->codigo.Get()
+                && input.GetData().Get() == this->data.Get()
+                && input.GetDisponibilidade().Get() == this->disponibilidade.Get()
+                && input.GetHorario().Get() == this->horario.Get()
+                && input.GetPreco().Get() == this->preco.Get()
+                && input.GetSala().Get() == this->sala.Get())
+                    return 1;
+            else
+                return 0;
+        };
+
 };
 
 class Ingresso{
@@ -159,7 +191,7 @@ class Ingresso{
         Codigo_de_ingresso codigo;
 
     public:
-  
+
         void Set(const Codigo_de_ingresso &input) throw (invalid_argument){ // seta o código do ingresso, o iput é o código a ser setado
             this->codigo = input;
         }
@@ -167,6 +199,13 @@ class Ingresso{
         inline Codigo_de_ingresso GetCodigo(){
             return codigo;
         }
+
+        bool isEqualTo(Ingresso input){
+            if (input.GetCodigo().Get() == this->codigo.Get())
+                    return 1;
+            else
+                return 0;
+        };
 };
 
 class Cartao_de_Credito{
@@ -177,7 +216,7 @@ class Cartao_de_Credito{
         Data_de_validade data;
 
     public:
-  
+
         void Set(const Numero_de_cartao_de_credito &input) throw (invalid_argument){ // seta o número de cartão do cartão, o input é o número setado
 
             this->numero = input;
@@ -204,6 +243,15 @@ class Cartao_de_Credito{
         inline Data_de_validade GetData(){
             return data;
         }
+
+        bool isEqualTo(Cartao_de_Credito input){
+            if (input.GetCodigo().Get() == this->codigo.Get()
+                && input.GetData().Get() == this->data.Get()
+                && input.GetNumero().Get() == this->numero.Get())
+                    return 1;
+            else
+                return 0;
+        };
 };
 
 #endif //ENTIDADES_H_INCLUDED

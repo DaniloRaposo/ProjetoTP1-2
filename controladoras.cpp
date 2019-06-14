@@ -28,7 +28,7 @@ void ControladoraSistema::executar(){
 
     switch(opcao){
       case(CADASTRAR_USUARIO):
-      //controladora_usuario->cadastrar_usuario();
+      controladora_usuario->cadastrar_usuario();
       break;
 
       case(AUTENTICAR_USUARIO):
@@ -36,7 +36,7 @@ void ControladoraSistema::executar(){
       break;
 
       case(OBTER_DADOS_EVENTOS):
-      //controladora_eventos->obter_dados_eventos();
+      controladora_eventos->obter_dados_eventos();
       break;
 
       case(RETORNAR):
@@ -87,7 +87,7 @@ void CntrAAutenticacao::autenticar_usuario(){
 
       std::string cpfstr = cpf;
       std::string senhastr = senha;
-      autenticou = controladora_servico->autenticar(cpfstr, senhastr);
+      autenticou = controladora_servico->autenticar_usuario(cpfstr, senhastr);
       if(autenticou == true){
         controladora_usuario->executar(cpf, senha);
         retorno = true;
@@ -185,6 +185,24 @@ void CntrAUsuario::executar(std::string cpf, std::string senha){
         if(retorno)
           break;
     }
+}
+
+bool CntrSUsuario::descadastrar_usuario(std::string cpf, std::string senha) throw(runtime_error){
+    Cpf cpfteste;
+
+
+    Usuario usuarioteste;
+}
+
+bool CntrSUsuario::comprar_ingresso() throw(runtime_error){
+}
+
+bool CntrSUsuario::descadastrar_evento() throw(runtime_error){
+
+}
+
+bool CntrSUsuario::alterar_evento() throw(runtime_error){
+
 }
 
 void CntrAEventos::cadastrar_evento(std::string cpf, std::string senha){

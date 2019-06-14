@@ -30,6 +30,10 @@ class ISUsuario{ // interface que permite a comunicação com o módulo de usuá
     virtual bool comprar_ingresso() throw(runtime_error) = 0;
     virtual bool descadastrar_evento() throw(runtime_error) = 0;
     virtual bool alterar_evento() throw(runtime_error) = 0;
+
+    void setContainer(Container <Usuario> *cInput);
+    void setContainer(Container <Cartao_de_Credito> *cInput);
+    void setContainer(Container <Evento> *cInput);
 };
 
 class IAUsuario{ // interface que permite a comunicação com o módulo de usuário da camada de apresentação
@@ -44,7 +48,7 @@ class IAUsuario{ // interface que permite a comunicação com o módulo de usuá
 
 class ISAutenticacao{ // interface que permite a comunicação com o módulo de autenticação da camada de serviço
     public: // Tarefas feitas pelo módulo de autenticação da camada de serviço:
-      virtual bool autenticar(std::string cpf, std::string senha) throw(runtime_error) = 0; // método de autenticação de usuário
+      virtual bool autenticar_usuario(std::string cpf, std::string senha) throw(runtime_error) = 0; // método de autenticação de usuário
 };
 
 class IAAuteuticacao { // interface que permite a comunicação com o módulo de autenticação da camada de apresentação

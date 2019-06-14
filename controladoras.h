@@ -55,6 +55,22 @@ class CntrAAutenticacao:public IAAuteuticacao{
         }
 };
 
+class CntrSAutenticacao:public ISAuteuticacao{
+    ContainerUsuario *cUsuario;
+    public:
+        bool autenticar_usuario(std::string cpf, std::string senha) throw(runtime_error){
+            Cpf cpfteste;
+            Senha senhateste;
+            cpfteste.Set(cpf);
+            senhateste.Set(senha);
+
+            Usuario usuarioteste;
+            usuarioteste.Set(cpfteste);
+
+            return cUsuario.pesquisar(usuarioteste);
+        };
+};
+
 class CntrAUsuario:public IAUsuario{
 
     private:
@@ -77,6 +93,28 @@ class CntrAUsuario:public IAUsuario{
 
         void setCAEventos(IAEventos *controladora_eventos){
             this->controladora_eventos = controladora_eventos;
+        }
+};
+
+class CntrSUsuario:public ISUsuario{
+    Container <Usuario> *cUsuario;
+    Container <Cartao_de_Credito> *cCartao;
+    Container <Evento> *cEvento;
+
+    public:
+        bool descadastrar_usuario(std::string cpf, std::string senha) throw(runtime_error) = 0;
+        bool comprar_ingresso() throw(runtime_error) = 0;
+        bool descadastrar_evento() throw(runtime_error) = 0;
+        bool alterar_evento() throw(runtime_error) = 0;
+
+        void setContainer(Container <Usuario> *cInput){
+            this->cUsuario = cInput;
+        }
+        void setContainer(Container <Cartao_de_Credito> *cInput){
+            this->cCartao = cInput;
+        }
+        void setContainer(Container <Evento> *cInput){
+            this->cEvento = cInput;
         }
 };
 
