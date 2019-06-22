@@ -67,11 +67,13 @@ class CntrAUsuario:public IAUsuario{
 
         ISUsuario *controladora_servico;
         IAEventos *controladora_eventos;
+        IAVendas *controladora_vendas;
 
     public:
-        void cadastrar_usuario();
 
         void executar(std::string cpf, std::string senha);
+
+        void cadastrar_usuario();
 
         void setCSUsuario(ISUsuario *controladora_servico){
             this->controladora_servico = controladora_servico;
@@ -79,6 +81,10 @@ class CntrAUsuario:public IAUsuario{
 
         void setCAEventos(IAEventos *controladora_eventos){
             this->controladora_eventos = controladora_eventos;
+        }
+
+        void setCAVendas(IAVendas *controladora_vendas){
+            this->controladora_vendas = controladora_vendas;
         }
 };
 
@@ -88,12 +94,25 @@ class CntrAEventos:public IAEventos{
       ISEventos *controladora_servico;
 
     public:
-      //void executar();
+      void obter_dados_eventos();
 
       void cadastrar_evento(std::string cpf, std::string);
 
       void setCSEventos(ISEventos * controladora_servico){
           this->controladora_servico = controladora_servico;
+      }
+};
+
+class CntrAVendas:public IAVendas{
+
+    private:
+      ISVendas *controladora_servico;
+
+    public:
+      void comprar_ingresso();
+
+      void setCSVendas(ISVendas *controladora_servico){
+        this->controladora_servico = controladora_servico;
       }
 };
 

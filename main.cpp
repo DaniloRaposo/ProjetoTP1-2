@@ -15,9 +15,11 @@ int main(){
   CntrAAutenticacao cntra;
   CntrAUsuario cntru;
   CntrAEventos cntre;
+  CntrAVendas cntrv;
   StubSAutenticacao stuba;
   StubSUsuario stubu;
   StubSEventos stube;
+  StubSVendas stubv;
 
   cntr.setCAAutenticacao(&cntra);
   cntr.setCAUsuario(&cntru);
@@ -26,7 +28,9 @@ int main(){
   cntra.setCAUsuario(&cntru);
   cntru.setCSUsuario(&stubu);
   cntru.setCAEventos(&cntre);
+  cntru.setCAVendas(&cntrv);
   cntre.setCSEventos(&stube);
+  cntrv.setCSVendas(&stubv);
   cntr.executar();
 
   return 0;

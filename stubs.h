@@ -6,6 +6,8 @@
 #include <stdexcept>
 #include <vector>
 
+#include "entidades.h"
+#include "dominios.h"
 #include "interfaces.h"
 
 
@@ -43,6 +45,9 @@ class StubSUsuario:public ISUsuario{
 
 class StubSEventos:public ISEventos{
     private:
+      const static std::string TRIGGER_CIDADE_SEM_EVENTOS;
+      const static std::string TRIGGER_FALHA_DATA;
+      const static std::string TRIGGER_ERRO_DATA;
       const static std::string TRIGGER_FALHA_CODIGO_EVENTO;
       const static std::string TRIGGER_ERRO_CODIGO_EVENTO;
       const static std::string TRIGGER_FALHA_NOME;
@@ -58,5 +63,16 @@ class StubSEventos:public ISEventos{
 
     public:
       bool cadastrar_evento(std::string cpf, std::string senha, std::string codigo_evento, std::string nome_evento, std::string cidade, std::string estado, std::string classe, std::string faixa_etaria, std::vector<std::string> codigo_apresentacao, std::vector<std::string> data, std::vector<std::string> horario, std::vector<float> preco, std::vector<int> sala) throw(runtime_error);
+      bool obter_dados_eventos(std::string datainit, std::string dataend, std::string cidade, std::string estado, std::vector<Evento> *eventos, std::vector<Apresentacao> *apresentacoes) throw(runtime_error);
+};
+
+class StubSVendas:public ISVendas{
+    private:
+      const static int LIMITE_INGRESSOS;
+      const static std::string TRIGGER_FALHA_CODIGO;
+      const static std::string TRIGGER_ERRO_CODIGO;
+
+    public:
+        bool comprar_ingresso(std::string codigo, int  quantidade_ingressos, std::vector<Ingresso> *Ingressos) throw(runtime_error);
 };
 #endif

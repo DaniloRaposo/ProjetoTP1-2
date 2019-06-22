@@ -4,6 +4,8 @@
 #include <vector>
 
 #include "controladoras.h"
+#include "entidades.h"
+#include "dominios.h"
 
 void ControladoraSistema::executar(){
 
@@ -36,7 +38,7 @@ void ControladoraSistema::executar(){
       break;
 
       case(OBTER_DADOS_EVENTOS):
-      //controladora_eventos->obter_dados_eventos();
+      controladora_eventos->obter_dados_eventos();
       break;
 
       case(RETORNAR):
@@ -199,7 +201,7 @@ void CntrAUsuario::executar(std::string cpf, std::string senha){
               break;
 
             case(COMPRAR_INGRESSO):
-              //controladora_servico->comprar_ingresso();
+              controladora_vendas->comprar_ingresso();
               break;
 
             case(CADASTRAR_EVENTO):
@@ -320,6 +322,152 @@ void CntrAEventos::cadastrar_evento(std::string cpf, std::string senha){
     }
 
     if(retorno == true)
+      break;
+  }
+}
+
+void CntrAEventos::obter_dados_eventos(){
+  int linha, coluna;
+  char resposta[2];
+  char datainit[9], dataend[9], cidade[17], estado[3];
+  bool retorno = false;
+  bool obteve;
+  std::string datainitstr, dataendstr, cidadestr, estadostr;
+  Evento auxevento;
+  Apresentacao auxapresentacao;
+  // variaveis mudadas por referência
+  std::vector<Evento> eventos;
+  std::vector<Apresentacao> apresentacoes;
+
+  while(true){
+    initscr();
+    getmaxyx(stdscr,linha,coluna);
+    mvprintw(0,0,"%s","Eventos\n");
+    mvprintw(linha/3, coluna/5, "%s", "Digite a Data de Início do Periodo Desejado: ");
+    scanw("%s", datainit);
+    datainitstr = datainit;
+    mvprintw(linha/3 + 2, coluna/5, "%s", "Digite a Data de Termino do Periodo Desejado: ");
+    scanw("%s", dataend);
+    dataendstr = dataend;
+    mvprintw(linha/3 + 4, coluna/5, "%s", "Digite a Cidade Desejada: ");
+    scanw("%s", cidade);
+    cidadestr = cidade;
+    mvprintw(linha/3 + 6, coluna/5, "%s", "Digite o Estado Desejado: ");
+    scanw("%s", estado);
+    estadostr = estado;
+    clear();
+    endwin();
+
+    obteve = controladora_servico->obter_dados_eventos(datainitstr, dataendstr, cidadestr, estadostr, &eventos, &apresentacoes);
+
+    if(obteve == false){
+      initscr();
+      mvprintw(0,0,"%s","Eventos\n");
+      mvprintw(linha/4,coluna/4,"%s","Erro nos dados Informados\n");
+      mvprintw(linha/4 + 2,coluna/4, "%s", "Aperte Alguma Tecla: ");
+      getch();
+      retorno = true;
+      clear();
+      endwin();
+    }
+    else{
+      if(eventos.size() == 0){
+        initscr();
+        mvprintw(0,0,"%s","Eventos\n");
+        mvprintw(linha/4,coluna/4,"%s","Nenhum Evento Encontrado\n");
+        mvprintw(linha/4 + 2,coluna/4, "%s", "Aperte Alguma Tecla: ");
+        getch();
+        clear();
+        endwin();
+      }
+      else{
+        for(int i = 0; i < eventos.size(); i++){
+          auxevento = eventos[i];
+          auxapresentacao = apresentacoes[i];
+          initscr();
+          mvprintw(0,0,"%s","Eventos\n");
+          mvprintw(linha/4, coluna/4, "%s %d %s", "Apresentação", i + 1, ":\n");
+          mvprintw(linha/4 + 1, coluna/4, "%s%s%s", "Nome do Evento: ",auxevento.GetNome().Get().c_str() ,"\n");
+          mvprintw(linha/4 + 2, coluna/4, "%s%s%s", "Código da Apresentação: ", auxapresentacao.GetCodigo().Get().c_str(),"\n");
+          mvprintw(linha/4 + 3, coluna/4, "%s%s%s", "Data da Apresentação: ", auxapresentacao.GetData().Get().c_str(),"\n");
+          mvprintw(linha/4 + 4, coluna/4, "%s%s%s", "Horário: ", auxapresentacao.GetHorario().Get().c_str(),"\n");
+          mvprintw(linha/4 + 5, coluna/4, "%s%.2f%s", "Preço: ", auxapresentacao.GetPreco().Get(),"\n");
+          mvprintw(linha/4 + 6, coluna/4, "%s%d%s", "Numero da Sala: ", auxapresentacao.GetSala().Get(),"\n");
+          mvprintw(linha/4 + 7, coluna/4, "%s%d%s", "Disponibilidade: ", auxapresentacao.GetDisponibilidade().Get(),"\n");
+          mvprintw(linha/4 + 8, coluna/4, "%s%d%s", "Classe de Evento: ", auxevento.GetClasse().Get(),"\n");
+          mvprintw(linha/4 + 9, coluna/4, "%s%s%s", "Faixa Etária: ", auxevento.GetFaixa().Get().c_str(),"\n");
+          mvprintw(linha/4 + 11, coluna/4, "%s", "Aperte Alguma Tecla: ");
+          getch();
+          clear();
+          endwin();
+        }
+      }
+      retorno = true;
+    }
+
+    if(retorno)
+      break;
+  }
+}
+
+void CntrAVendas::comprar_ingresso(){
+  int linha, coluna;
+  bool retorno = false;
+  bool compra;// booleano que indica se a compra foi feita
+  char codigo_apresentacao[5];
+  int quantidade_ingressos;
+  std::string codigo;
+  // Variavel que vai ser modificada ao ser passada por parametro no método comprar_ingresso();
+  std::vector<Ingresso> Ingressos;
+
+  while (true){
+    initscr();
+    getmaxyx(stdscr,linha,coluna);
+    mvprintw(0,0,"%s","Vendas\n");
+    mvprintw(linha/3, coluna/4, "%s", "Digite o Código da Apresentação Desejada: ");
+    scanw("%s", codigo_apresentacao);
+    codigo = codigo_apresentacao;
+    mvprintw(linha/3 + 2, coluna/4, "%s", "Digite a Quantidade de Ingressos Desejados: ");
+    scanw("%d", &quantidade_ingressos);
+    clear();
+    endwin();
+    compra = controladora_servico->comprar_ingresso(codigo, quantidade_ingressos, &Ingressos);
+
+    if(compra == false){
+      initscr();
+      mvprintw(0,0,"%s","Vendas\n");
+      mvprintw(linha/3,coluna/4,"%s","Erro nos dados Informados\n");
+      mvprintw(linha/3 + 2,coluna/4, "%s", "Aperte Alguma Tecla: ");
+      getch();
+      retorno = true;
+      clear();
+      endwin();
+    }
+    else{
+      if(Ingressos.size() == 0){
+        initscr();
+        mvprintw(0,0,"%s","Vendas\n");
+        mvprintw(linha/3,coluna/4,"%s%d%s","Não há ", quantidade_ingressos," ingressos disponiveis\n");
+        mvprintw(linha/3 + 2,coluna/4, "%s", "Aperte Alguma Tecla: ");
+        getch();
+        clear();
+        endwin();
+      }
+      else{
+        for(int i = 0; i < Ingressos.size(); i++){
+          initscr();
+          mvprintw(0,0,"%s","Vendas\n");
+          mvprintw(linha/3,coluna/4,"%s %d%s %s\n","Código do Ingresso", i + 1, ":", Ingressos[i].GetCodigo().Get().c_str());
+          mvprintw(linha/3 + 2,coluna/4, "%s", "Aperte Alguma Tecla: ");
+          getch();
+          clear();
+          endwin();
+        }
+      }
+      retorno = true;
+    }
+
+    if(retorno)
       break;
   }
 }

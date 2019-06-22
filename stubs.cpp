@@ -1,5 +1,7 @@
 #include <stdexcept>
 
+#include "dominios.h"
+#include "entidades.h"
 #include "stubs.h"
 
 const std::string StubSAutenticacao::TRIGGER_FALHA_CPF = "106.506.924-37";
@@ -45,6 +47,9 @@ bool StubSUsuario::cadastrar_usuario(std::string cpf, std::string senha, std::st
     return true;
 }
 
+const std::string StubSEventos::TRIGGER_CIDADE_SEM_EVENTOS = "natal";
+const std::string StubSEventos::TRIGGER_FALHA_DATA = "02/09/99";
+const std::string StubSEventos::TRIGGER_ERRO_DATA = "02/09/00";
 const std::string StubSEventos::TRIGGER_FALHA_CODIGO_EVENTO = "111";
 const std::string StubSEventos::TRIGGER_ERRO_CODIGO_EVENTO = "222";
 const std::string StubSEventos::TRIGGER_FALHA_NOME = "a bela e a fera";
@@ -65,4 +70,114 @@ bool StubSEventos::cadastrar_evento(std::string cpf, std::string senha, std::str
     throw runtime_error("Erro no sistema");
   else
     return true;
+}
+
+bool StubSEventos::obter_dados_eventos(std::string datainit, std::string dataend, std::string cidade, std::string estado, std::vector<Evento> *eventos, std::vector<Apresentacao> *apresentacoes) throw(runtime_error){
+  if(datainit == TRIGGER_FALHA_DATA || dataend == TRIGGER_FALHA_DATA || cidade == TRIGGER_FALHA_CIDADE || estado == TRIGGER_FALHA_ESTADO)
+    return false;
+  else if(datainit == TRIGGER_ERRO_DATA || dataend == TRIGGER_ERRO_DATA || cidade == TRIGGER_ERRO_CIDADE || estado == TRIGGER_ERRO_ESTADO)
+    throw runtime_error("Erro no sistema");
+  else if(cidade == TRIGGER_CIDADE_SEM_EVENTOS)
+    return true;
+  else{
+    // inicializar as classes do domínio para setar os valores no vector de entidades
+    Nome_de_evento nome;
+    Codigo_de_apresentacao codigo;
+    Data data;
+    Horario horario;
+    Preco preco;
+    Numero_de_sala numero;
+    Disponibilidade disponibilidade;
+    Classe_de_evento classe;
+    Faixa_etaria faixa;
+    // inicializar as classes de entidade que serão colocadas no vector
+    Evento evento;
+    Apresentacao apresentacao;
+    // set dos valores nos dominios
+    nome.Set("A bela e a fera");
+    codigo.Set("1234");
+    data.Set("01/01/01");
+    horario.Set("12:00");
+    preco.Set(10.10);
+    numero.Set(2);
+    disponibilidade.Set(30);
+    classe.Set(2);
+    faixa.Set("10");
+    // set dos dominios nas entidades
+    evento.Set(nome);
+    evento.Set(classe);
+    evento.Set(faixa);
+    apresentacao.Set(codigo);
+    apresentacao.Set(data);
+    apresentacao.Set(horario);
+    apresentacao.Set(preco);
+    apresentacao.Set(numero);
+    apresentacao.Set(disponibilidade);
+    // push nos vectors
+    eventos->push_back(evento);
+    apresentacoes->push_back(apresentacao);
+    // set dos valores nos dominios
+    nome.Set("Boku no Hero");
+    codigo.Set("1233");
+    data.Set("01/02/01");
+    horario.Set("15:00");
+    preco.Set(25.00);
+    numero.Set(1);
+    disponibilidade.Set(13);
+    classe.Set(3);
+    faixa.Set("L");
+    // set dos dominios nas entidades
+    evento.Set(nome);
+    evento.Set(classe);
+    evento.Set(faixa);
+    apresentacao.Set(codigo);
+    apresentacao.Set(data);
+    apresentacao.Set(horario);
+    apresentacao.Set(preco);
+    apresentacao.Set(numero);
+    apresentacao.Set(disponibilidade);
+    // push nos vectors
+    eventos->push_back(evento);
+    apresentacoes->push_back(apresentacao);
+
+    return true;
+  }
+}
+
+const int StubSVendas::LIMITE_INGRESSOS = 250;
+const std::string StubSVendas::TRIGGER_FALHA_CODIGO = "2233";
+const std::string StubSVendas::TRIGGER_ERRO_CODIGO = "1112";
+
+bool StubSVendas::comprar_ingresso(std::string codigo, int  quantidade_ingressos, std::vector<Ingresso> *Ingressos) throw(runtime_error){
+  if(codigo == TRIGGER_FALHA_CODIGO)
+    return false;
+  else if(codigo == TRIGGER_ERRO_CODIGO)
+    throw runtime_error("Erro de sistema");
+  else if(quantidade_ingressos > LIMITE_INGRESSOS)
+   return true;
+  else{
+    // inicializando as variaveis auxiliares para setar os codigos de ingresso nos ingressos
+    Codigo_de_ingresso codigo_ingresso;
+    // inicializando os ingressos que serão colocados no vector
+    Ingresso ingresso;
+
+    codigo_ingresso.Set("12345");
+    ingresso.Set(codigo_ingresso);
+    Ingressos->push_back(ingresso);
+
+    codigo_ingresso.Set("11111");
+    ingresso.Set(codigo_ingresso);
+    Ingressos->push_back(ingresso);
+
+    codigo_ingresso.Set("12222");
+    ingresso.Set(codigo_ingresso);
+    Ingressos->push_back(ingresso);
+
+    codigo_ingresso.Set("98989");
+    ingresso.Set(codigo_ingresso);
+    Ingressos->push_back(ingresso);
+
+    return true;
+  }
+
 }
