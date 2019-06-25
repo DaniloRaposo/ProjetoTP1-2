@@ -55,6 +55,23 @@ class CntrAAutenticacao:public IAAuteuticacao{
         }
 };
 
+class CntrSAutenricacao:public ISAutenticacao{
+
+    private:
+
+        ContainerUsuario *cUsuario;
+
+    public:
+        bool autenticar (std::string cpfInput, std::string senhaInput) throw(runtime_error){
+            return this->cUsuario.pesquisar(cpfInput, senhaInput);
+        };
+
+        void setContUsuario(ContainerUsuario *input)
+        {
+            this->cUsuario = input;
+        };
+};
+
 class CntrAUsuario:public IAUsuario{
 
     private:
@@ -86,6 +103,58 @@ class CntrAUsuario:public IAUsuario{
         void setCAVendas(IAVendas *controladora_vendas){
             this->controladora_vendas = controladora_vendas;
         }
+};
+
+class CntrSUsuario:public ISUsuario{
+
+    private:
+
+        ContainerUsuario *cUsuario;
+        ContainerCartao *cCartao;
+        ContainerEvento *cEvento;
+
+    public:
+
+        bool cadastrar_usuario(std::string cpfstr, std::string senhastr,
+                              std::string numerostr, std::string codigostr, std::string datastr){
+            
+            Usuario* usuarioAux;
+            Cartao_de_Credito* cartaoAux;
+
+            usuarioAux = this->cUsuario.incluir(cpfstr, senhastr);
+            cartaoAux = this->cCartao.incluir(numerostr, codigostr, datastr);
+
+            this->cUsuario.linkCartao(cartaoAux);
+            this->cCartao.linkUsuario(usuarioAux);
+        };
+
+        void decadastrar_usuario(std::string cpf, std::string senha){
+            
+            Usuario* usuarioAux;
+            Cartao_de_Credito* cartaoAux;
+
+            usuarioAux = this->cUsuario.retornar(cpf,senha);
+            cartaoAux = this->cUsuario.removerLinkCartao(usuarioAux);
+
+            this->cCartao.remover(cartaoAux);
+            this->cCartao.removerLinkUsuario(usuarioAux);
+        };
+
+        void setContUsuario(ContainerUsuario *input)
+        {
+            this->cUsuario = input;
+        };
+
+        void setContCartao(ContainerCartao *input)
+        {
+            this->cCartao = input;
+        };
+
+        void setContEvento(ContainerEvento *input)
+        {
+            this->cEvento = input;
+        };
+
 };
 
 class CntrAEventos:public IAEventos{

@@ -31,7 +31,7 @@ class ISEventos{ // interface que permite a comunicação com o módulo de event
 
 class IAEventos{ // interface que permite a comunicação com o módulo de eventos da camada de apresentação
 
-public:
+  public:
   //virtual void executar() = 0; // método que executa o módulo que herda dessa interface
 
   virtual void cadastrar_evento(std::string cpf, std::string senha) = 0; // método que cadastra um evento de um usuário
