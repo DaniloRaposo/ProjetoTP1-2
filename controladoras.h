@@ -117,16 +117,19 @@ class CntrSUsuario:public ISUsuario{
 
         //funcoes de servico
         bool cadastrar_usuario(std::string cpfstr, std::string senhastr,
-                              std::string numerostr, std::string codigostr, std::string datastr){
+                              std::string numerostr, std::string codigostr, std::string datastr) {
             
             Usuario* usuarioAux;
             Cartao_de_Credito* cartaoAux;
 
+            try
             usuarioAux = this->cUsuario.incluir(cpfstr, senhastr);
             cartaoAux = this->cCartao.incluir(numerostr, codigostr, datastr);
 
             this->cUsuario.linkCartao(cartaoAux);
             this->cCartao.linkUsuario(usuarioAux);
+
+            return 
         };
 
         void descadastrar_usuario(std::string cpf, std::string senha){
