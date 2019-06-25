@@ -184,10 +184,10 @@ class ContainerEvento{
         list<*Usuario> LPUsuario;                   //lista de ponteiro pra usuario;
 
         //referencias pra containers
-        ContainerApresentacao *PCApresentacao   //ponteiro pra container de apresentacao
+        ContainerApresentacao *PCApresentacao;   //ponteiro pra container de apresentacao
         ContainerUsuario *PCUsuario;            //ponteiro pra container de usuario
 
-        public;
+        public:
 
         //set referencias pra containers
         void setCApresentacao(ContainerApresentacao *input)
@@ -211,10 +211,22 @@ class ContainerApresentacao{
         list<list<*Ingresso>> LLPIngresso;   //no max 250 por apresentacao
 
         //referencias pra containers
-        ContainerEvento *PCEvento           //ponteiro pra container de evento
+        ContainerEvento *PCEvento;       //ponteiro pra container de evento
         ContainerIngresso *PCIngresso;      //ponteiro pra container de ingresso
 
-        public;
+        public:
+
+        //pesquisa pelo codigo de apresentacao
+        Apresentacao* pesquisar(std::string codigo){
+            list<Apresentacao>::iterator it = LApresentacao.begin();
+
+            for(; it != LApresentacao.end(); ++it)
+            {
+                if ( (*it).GetCodigo().Get() == codigo )
+                    return (&*it);
+            }
+            return NULL;
+        };
 
         //set referencias pra containers
         void setCEvento(ContainerEvento *input)
@@ -237,10 +249,10 @@ class ContainerIngresso{
         list<*Apresentacao> LPApresentacao;   //Apresentacao do ingresso
 
         //referencias pra containers
-        ContainerApresentacao *PCApresentacao   //ponteiro pra container de apresentacao
+        ContainerApresentacao *PCApresentacao;   //ponteiro pra container de apresentacao
         ContainerUsuario *PCUsuario;            //ponteiro pra container de usuario
 
-        public;
+        public:
 
         //set referencias pra containers
         void setCUsuario(ContainerUsuario *input)

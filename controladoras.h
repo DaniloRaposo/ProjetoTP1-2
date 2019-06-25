@@ -115,6 +115,7 @@ class CntrSUsuario:public ISUsuario{
 
     public:
 
+        //funcoes de servico
         bool cadastrar_usuario(std::string cpfstr, std::string senhastr,
                               std::string numerostr, std::string codigostr, std::string datastr){
             
@@ -128,7 +129,7 @@ class CntrSUsuario:public ISUsuario{
             this->cCartao.linkUsuario(usuarioAux);
         };
 
-        void decadastrar_usuario(std::string cpf, std::string senha){
+        void descadastrar_usuario(std::string cpf, std::string senha){
             
             Usuario* usuarioAux;
             Cartao_de_Credito* cartaoAux;
@@ -140,18 +141,18 @@ class CntrSUsuario:public ISUsuario{
             this->cCartao.removerLinkUsuario(usuarioAux);
         };
 
-        void setContUsuario(ContainerUsuario *input)
-        {
+        void descadastrar_evento()
+
+        //funcoes set containers
+        void setContUsuario(ContainerUsuario *input){
             this->cUsuario = input;
         };
 
-        void setContCartao(ContainerCartao *input)
-        {
+        void setContCartao(ContainerCartao *input){
             this->cCartao = input;
         };
 
-        void setContEvento(ContainerEvento *input)
-        {
+        void setContEvento(ContainerEvento *input){
             this->cEvento = input;
         };
 
@@ -183,6 +184,42 @@ class CntrAVendas:public IAVendas{
       void setCSVendas(ISVendas *controladora_servico){
         this->controladora_servico = controladora_servico;
       }
+};
+
+class CntrSVendas:public ISVendas{
+    
+    ContainerApresentacao *cApresentacao;
+    ContainerIngresso *cIngresso;
+
+    public:
+      bool comprar_ingresso(std::string codigo, int quantidade_ingressos, std::vector<Ingresso> &Ingressos){
+          Apresentacao *apresentacaoAux;
+          
+          apresentacaoAux = this->cApresentacao.pesquisar(codigo);
+          if(apresentacaoAux == NULL) return false;
+          
+          if ( quantidade_ingressos <= apresentacaoAux.GetDisponibilidade().Get() ){
+              
+              //atualizar a disponibilidade da apresentacao
+              Disponibilidade nova_disponibilidade;
+              nova_disponibilidade.Set( apresentacaoAux.GetDisponibilidade().Get() - quantidade_ingressos);
+              apresentacaoAux.set(nova_disponibilidade);
+
+              //listar os codigos de ingressos vendidos (modificar vetor input)
+              //codigo sao 5 digitos numericos
+              Ingresso 
+          }
+      };
+
+      void setContApresentacao(ContainerApresentacao *input){
+            this->cApresentacao = input;
+      };
+
+      void setContIngresso(ContainerIngresso *input){
+            this->cIngresso = input;
+      };
+
+
 };
 
 #endif
