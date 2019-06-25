@@ -16,7 +16,7 @@ class ContainerCartao{
     private:
         //dado principal
         list<Cartao_de_Credito> LCartao; //lista de cartoes de credito
-
+        
         //relacoes de grafo
         list<Usuario*> LPUsuario;   //Usuario do cartao
 
@@ -63,7 +63,6 @@ class ContainerCartao{
         void setCUsuario(ContainerUsuario *input){
             this->PCUsuario = input;
         };
-
 
 };
 
@@ -244,15 +243,48 @@ class ContainerIngresso{
         //dado principal
         list<Ingresso> LIngresso;   //lista de eventos
 
-        //relacoes de grafo
-        list<*Usuario> LPUsuario;             //Usuario do ingresso
-        list<*Apresentacao> LPApresentacao;   //Apresentacao do ingresso
-
         //referencias pra containers
         ContainerApresentacao *PCApresentacao;   //ponteiro pra container de apresentacao
         ContainerUsuario *PCUsuario;            //ponteiro pra container de usuario
 
-        public:
+        //para aleatorizar os codigos
+        void codigo_aleatorio(std::string codigo) {
+            static const char algarismos[] = "0123456789";
+
+            for (int n = 0; n < 5; n++) {
+                codigo[n] = alphanum[rand() % (sizeof(algarismos) - 1)];
+            }
+        }
+
+    public:
+
+        Ingresso* incluir(){
+            
+            Ingresso ingressoNew;
+
+            Codigo_de_ingresso codigoNew;
+            std::string codigoaleatorio;
+            codigo_aleatorio(codigoaleatorio);
+            while (pesquisar(codigoaleatorio) == true) codigo_aleatorio(codigoaleatorio);
+
+            codigoNew.Set(codigoaleatorio);
+            ingressoNew.Set(codigoNew);
+
+            LIngresso.push_back(ingressoNew);
+            
+            return *ingressoNew;
+        };
+
+        bool pesquisar(std::string codigo){
+            list<Ingresso>::iterator it = LIngresso.begin();
+
+            for(; it != LIngresso.end(); ++it)
+            {
+                if ((*it).GetCodigo().Get() == codigo)
+                    return true;
+            }
+            return false;
+        };
 
         //set referencias pra containers
         void setCUsuario(ContainerUsuario *input)

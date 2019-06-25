@@ -139,6 +139,8 @@ class CntrSUsuario:public ISUsuario{
 
             this->cCartao.remover(cartaoAux);
             this->cCartao.removerLinkUsuario(usuarioAux);
+
+            this->cUsuario.remover(usuarioAux);
         };
 
         void descadastrar_evento()
@@ -202,12 +204,19 @@ class CntrSVendas:public ISVendas{
               
               //atualizar a disponibilidade da apresentacao
               Disponibilidade nova_disponibilidade;
-              nova_disponibilidade.Set( apresentacaoAux.GetDisponibilidade().Get() - quantidade_ingressos);
-              apresentacaoAux.set(nova_disponibilidade);
-
+              nova_disponibilidade.Set( apresentacaoAux.GetDisponibilidade().Get() - quantidade_ingressos );
+              apresentacaoAux.Set( nova_disponibilidade );
+              
               //listar os codigos de ingressos vendidos (modificar vetor input)
               //codigo sao 5 digitos numericos
-              Ingresso 
+              Ingresso *novo_ingresso;
+
+              for(int n = 0; n< quantidade_ingressos; n++){
+
+                  novo_ingresso = this->cIngresso.incluir();
+                  Ingressos.push_back(novo_ingresso);
+                  
+              }
           }
       };
 
